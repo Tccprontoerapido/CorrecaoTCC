@@ -1,8 +1,31 @@
-#resultado-citacao {
+#resultado-verificacao {
     margin-top: 10px;
-    font-style: italic;
 }
 
+.sugestao-correcao {
+    background-color: #e6f7ff;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #b3e5fc;
+}
+
+/* Estilos para o editor CKEditor */
+.cke_chrome {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Estilos para a área de trabalho */
+#area-trabalho {
+    margin-bottom: 20px;
+}
+
+/* Estilos para o resultado da correção */
+#resultado-correcao {
+    margin-top: 20px;
+}
+
+/* Estilos para a lista de normas */
 #lista-normas {
     list-style-type: none;
     padding: 0;
@@ -13,17 +36,12 @@
     border-bottom: 1px solid #eee;
 }
 
-#verificador-formatacao textarea {
-    height: 200px;
+/* Estilos para o gerador de citações */
+#gerador-citacao {
+    margin-bottom: 20px;
 }
 
-#resultado-verificacao {
+#resultado-citacao {
     margin-top: 10px;
-}
-
-.sugestao-correcao {
-    background-color: #e6f7ff;
-    padding: 5px;
-    margin-top: 5px;
-    border: 1px solid #b3e5fc;
+    font-style: italic;
 }
