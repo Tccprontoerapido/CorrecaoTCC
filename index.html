@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="estilos/estilos-componentes.css">
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <header>
@@ -26,6 +30,8 @@
             <h2>Insira seu Trabalho</h2>
             <textarea id="editor"></textarea>
             <button type="button" onclick="aplicarNormasTCC()">Aplicar Normas</button>
+            <input type="file" id="file-input" accept="application/pdf" onchange="importarPDF(event)">
+            <button type="button" onclick="salvarPDF()">Salvar como PDF</button>
         </section>
         <section id="resultado-correcao" style="display:none;">
             <h2>Resultado da Correção</h2>
