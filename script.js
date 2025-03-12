@@ -1,3 +1,18 @@
+// Função de login
+function login() {
+    const loginInput = document.getElementById('login').value;
+    const passwordInput = document.getElementById('password').value;
+    const loginError = document.getElementById('login-error');
+
+    if (loginInput === 'neliolima598' && passwordInput === 'Nelio1302109') {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('area-trabalho').style.display = 'block';
+        document.getElementById('resultado-correcao').style.display = 'block';
+    } else {
+        loginError.textContent = 'Login ou senha incorretos.';
+    }
+}
+
 CKEDITOR.replace('editor');
 
 function aplicarNormasTCC() {
