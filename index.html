@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Normas ABNT</title>
+    <title>Normas ABNT - TCC</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="estilos/estilos-componentes.css">
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 </head>
 <body>
     <header>
-        <h1>Normas ABNT</h1>
+        <h1>Normas ABNT - TCC</h1>
     </header>
     <main>
-        <section id="gerador-citacao"></section>
-        <section id="normas"></section>
-        <section id="verificador-formatacao">
-            <h2>Verificador de Formatação</h2>
+        <section id="area-trabalho">
+            <h2>Insira seu Trabalho</h2>
             <div id="editor"></div>
-            <button type="button" onclick="verificarFormatacao()">Verificar</button>
+            <button type="button" onclick="aplicarNormasTCC()">Aplicar Normas</button>
+        </section>
+        <section id="resultado-correcao">
+            <h2>Resultado da Correção</h2>
             <div id="resultado-verificacao"></div>
         </section>
     </main>
-    <script src="componentes/gerador-citacao.js"></script>
-    <script src="componentes/buscador-normas.js"></script>
-    <script src="componentes/verificador-formatacao.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
