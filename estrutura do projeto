@@ -1,0 +1,12 @@
+abnt-site/
+├── index.html
+├── style.css
+├── script.js
+├── data/
+│   └── normas.json
+├── componentes/
+│   ├── gerador-citacao.js
+│   ├── buscador-normas.js
+│   └── verificador-formatacao.js
+└── estilos/
+    └── estilos-componentes.css
