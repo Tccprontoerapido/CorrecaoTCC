@@ -110,4 +110,16 @@ function destacarErro(texto, mensagem, posicao) {
 function gerarSugestao(mensagem) {
     if (mensagem.includes("Margens")) {
         return "Adicione 3 espaços no início do parágrafo.";
-    } else if (
+    } else if (mensagem.includes("Fonte")) {
+        return "Altere a fonte para Arial 12pt.";
+    } else if (mensagem.includes("Espaçamento")) {
+        return "Defina o espaçamento entre linhas para 1.5.";
+    } else if (mensagem.includes("Citação")) {
+        return "Verifique o formato da citação. Deve ser (Autor, Ano).";
+    } else if (mensagem.includes("Referência")) {
+        return "Verifique o formato da referência. Exemplo: AUTOR, A. Título. Ano.";
+    } else if (mensagem.includes("Título")) {
+        return "Verifique o formato do título. Exemplo: 1. Título Principal.";
+    }
+    return "Verifique o erro e corrija conforme necessário.";
+}
