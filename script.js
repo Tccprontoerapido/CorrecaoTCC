@@ -13,7 +13,10 @@ function login() {
     }
 }
 
-CKEDITOR.replace('editor');
+CKEDITOR.replace('editor', {
+    extraPlugins: 'divarea,pagebreak',
+    height: 500
+});
 
 function aplicarNormasTCC() {
     const texto = CKEDITOR.instances.editor.getData();
@@ -137,4 +140,38 @@ function gerarSugestao(mensagem) {
         return "Verifique o formato do título. Exemplo: 1. Título Principal.";
     }
     return "Verifique o erro e corrija conforme necessário.";
+}
+
+// Função para importar texto de um PDF
+async function importarPDF(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const typedarray = new Uint8Array(this.result);
+
+            const loadingTask = pdfjsLib.getDocument({ data: typedarray });
+            const pdf = await loadingTask.promise;
+
+            let combinedText = '';
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                combinedText += pageText + '\n\n';
+            }
+
+            CKEDITOR.instances.editor.setData(combinedText);
+        };
+        reader.readAsArrayBuffer(file);
+    }
+}
+
+// Função para salvar o conteúdo como PDF
+function salvarPDF() {
+    const texto = CKEDITOR.instances.editor.getData();
+    var docDefinition = {
+        content: texto
+    };
+    pdfMake.createPdf(docDefinition).download('trabalho.pdf');
 }
