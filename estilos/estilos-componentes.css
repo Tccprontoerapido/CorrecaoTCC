@@ -1,0 +1,29 @@
+#resultado-citacao {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+#lista-normas {
+    list-style-type: none;
+    padding: 0;
+}
+
+#lista-normas li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+#verificador-formatacao textarea {
+    height: 200px;
+}
+
+#resultado-verificacao {
+    margin-top: 10px;
+}
+
+.sugestao-correcao {
+    background-color: #e6f7ff;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #b3e5fc;
+}
