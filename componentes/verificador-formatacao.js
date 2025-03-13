@@ -5,4 +5,5 @@ function verificarFormatacao() {
     let erros = [];
     let textoFormatado = texto;
 
-    if
+    // Outras verificações de formatação aqui
+}
