@@ -1,15 +1,35 @@
-// Função de login
-function login() {
-    const loginInput = document.getElementById('login').value;
-    const passwordInput = document.getElementById('password').value;
-    const loginError = document.getElementById('login-error');
+document.getElementById("logoutButton").addEventListener("click", function() {
+    // Remover informações de login do localStorage ou cookies
+    localStorage.removeItem("userToken"); // Ajuste conforme necessário
+    // Redirecionar para a página de login
+    window.location.href = "login.html"; // Ajuste o caminho conforme necessário
+});
 
-    if (loginInput === 'neliolima598' && passwordInput === 'Nelio1302109') {
+window.onload = function() {
+    if (!localStorage.getItem("userToken")) { // Ajuste conforme necessário
+        window.location.href = "login.html"; // Ajuste o caminho conforme necessário
+    }
+};
+
+// Habilitar colar texto na caixa de inserção
+document.getElementById('editor').addEventListener('paste', function (event) {
+    event.preventDefault();
+    var text = event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+});
+
+// Função de login simulada
+function login() {
+    var login = document.getElementById('login').value;
+    var password = document.getElementById('password').value;
+
+    if (login === "neliolima598" && password === "Nelio1302109") { // Ajuste conforme necessário
+        localStorage.setItem("userToken", "token"); // Ajuste conforme necessário
         document.getElementById('login-form').style.display = 'none';
         document.getElementById('area-trabalho').style.display = 'block';
         document.getElementById('resultado-correcao').style.display = 'block';
     } else {
-        loginError.textContent = 'Login ou senha incorretos.';
+        document.getElementById('login-error').innerText = "Login ou senha incorretos.";
     }
 }
 
