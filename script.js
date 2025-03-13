@@ -20,12 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     if (editor) {
-        editor.addEventListener('paste', function(event) {
-            event.preventDefault();
-            const text = event.clipboardData.getData('text/plain');
-            document.execCommand('insertText', false, text);
-        });
-
         CKEDITOR.replace('editor', {
             extraPlugins: 'divarea,pagebreak',
             height: 500
