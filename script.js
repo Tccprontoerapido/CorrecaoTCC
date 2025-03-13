@@ -194,4 +194,4 @@ function salvarPDF() {
         content: texto
     };
     pdfMake.createPdf(docDefinition).download('trabalho.pdf');
-}
+        }
