@@ -69,38 +69,16 @@ document.addEventListener("DOMContentLoaded", function() {
     window.aplicarNormasTCC = function() {
         const texto = CKEDITOR.instances.editor.getData();
         let erros = [];
-        let textoFormatado = texto;
+        let textoFormatado = aplicarNormasABNT(texto);
 
-        if (tipoTrabalho === '') {
-            alert('Por favor, selecione o tipo de trabalho.');
-            return;
-        }
-
-        // Verificar margens
-        if (!texto.startsWith("   ")) {
-            erros.push({ mensagem: "Margens incorretas (devem começar com 3 espaços).", posicao: 0 });
-        }
-
-        // Verificar fonte e tamanho
-        if (!verificarFonte(texto, "Arial", "12pt")) {
-            erros.push({ mensagem: "Fonte incorreta (deve ser Arial 12pt).", posicao: 0 });
-        }
-
-        // Verificar espaçamento entre linhas
-        if (!verificarEspacamento(texto, 1.5)) {
-            erros.push({ mensagem: "Espaçamento entre linhas incorreto (deve ser 1.5).", posicao: 0 });
-        }
-
-        // Verificar citações
-        const errosCitacao = verificarCitacoes(texto);
+        // Verificar erros no texto formatado
+        const errosCitacao = verificarCitacoes(textoFormatado);
         erros = erros.concat(errosCitacao);
 
-        // Verificar referências
-        const errosReferencias = verificarReferencias(texto);
+        const errosReferencias = verificarReferencias(textoFormatado);
         erros = erros.concat(errosReferencias);
 
-        // Verificar títulos
-        const errosTitulos = verificarTitulos(texto);
+        const errosTitulos = verificarTitulos(textoFormatado);
         erros = erros.concat(errosTitulos);
 
         // Destacar erros no texto
@@ -121,15 +99,65 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('resultado-verificacao').innerHTML = sugestoes;
     };
 
-    function verificarFonte(texto, fonte, tamanho) {
-        const style = CKEDITOR.instances.editor.document.getBody().getStyle('font-family');
-        const size = CKEDITOR.instances.editor.document.getBody().getStyle('font-size');
-        return style === fonte && size === tamanho;
+    function aplicarNormasABNT(texto) {
+        // Aplicar formatação ABNT
+        texto = aplicarMargens(texto);
+        texto = aplicarFonte(texto);
+        texto = aplicarEspacamento(texto);
+        texto = aplicarAlinhamento(texto);
+        texto = aplicarRecuoParagrafos(texto);
+        texto = aplicarFormatacaoCitações(texto);
+        texto = aplicarNumeracaoPaginas(texto);
+        texto = aplicarFormatacaoTitulos(texto);
+        texto = aplicarFormatacaoReferencias(texto);
+        return texto;
     }
 
-    function verificarEspacamento(texto, espacamento) {
-        const line_height = CKEDITOR.instances.editor.document.getBody().getStyle('line-height');
-        return line_height === espacamento.toString();
+    function aplicarMargens(texto) {
+        // Adicionar margens no início e fim do texto
+        return `\n\n${texto}\n\n`;
+    }
+
+    function aplicarFonte(texto) {
+        // Definir a fonte como Arial 12pt
+        return `<span style="font-family: Arial; font-size: 12pt;">${texto}</span>`;
+    }
+
+    function aplicarEspacamento(texto) {
+        // Definir espaçamento entre linhas de 1.5
+        return `<span style="line-height: 1.5;">${texto}</span>`;
+    }
+
+    function aplicarAlinhamento(texto) {
+        // Definir alinhamento justificado para o texto
+        return `<div style="text-align: justify;">${texto}</div>`;
+    }
+
+    function aplicarRecuoParagrafos(texto) {
+        // Adicionar recuo de 1.25 cm na primeira linha de cada parágrafo
+        return texto.replace(/<p>/g, `<p style="text-indent: 1.25cm;">`);
+    }
+
+    function aplicarFormatacaoCitações(texto) {
+        // Formatar citações curtas e longas
+        texto = texto.replace(/“([^”]+)”/g, `"<span style="font-size: 12pt;">$1</span>"`);
+        texto = texto.replace(/“([^”]{3,})”/g, `<blockquote style="font-size: 10pt; margin-left: 4cm;">$1</blockquote>`);
+        return texto;
+    }
+
+    function aplicarNumeracaoPaginas(texto) {
+        // Adicionar numeração de páginas no canto superior direito
+        return texto; // Implementar conforme necessário
+    }
+
+    function aplicarFormatacaoTitulos(texto) {
+        // Formatar títulos com numeração progressiva
+        return texto.replace(/<h([1-6])>([^<]+)<\/h\1>/g, `<h$1 style="text-align: left;">$2</h$1>`);
+    }
+
+    function aplicarFormatacaoReferencias(texto) {
+        // Formatar referências com espaçamento simples
+        return texto.replace(/<li>([^<]+)<\/li>/g, `<li style="line-height: 1;">$1</li>`);
     }
 
     function verificarCitacoes(texto) {
