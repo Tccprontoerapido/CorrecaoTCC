@@ -35,21 +35,4 @@
 
 /* Estilos para a lista de normas */
 #lista-normas {
-    list-style-type: none;
-    padding: 0;
-}
-
-#lista-normas li {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-}
-
-/* Estilos para o gerador de citações */
-#gerador-citacao {
-    margin-bottom: 20px;
-}
-
-#resultado-citacao {
-    margin-top: 10px;
-    font-style: italic;
-}
+    list-style-type
