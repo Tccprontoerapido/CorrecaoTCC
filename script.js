@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginError = document.getElementById('login-error');
     const editor = document.getElementById('editor');
     const logoutButton = document.getElementById("logoutButton");
+    let tipoTrabalho = '';
 
     if (logoutButton) {
         logoutButton.addEventListener("click", function() {
@@ -57,10 +58,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
+    window.selecionarTipoTrabalho = function() {
+        tipoTrabalho = document.getElementById('tipo-trabalho').value;
+    };
+
     window.aplicarNormasTCC = function() {
         const texto = CKEDITOR.instances.editor.getData();
         let erros = [];
         let textoFormatado = texto;
+
+        if (tipoTrabalho === '') {
+            alert('Por favor, selecione o tipo de trabalho.');
+            return;
+        }
 
         if (!texto.startsWith("   ")) {
             erros.push({ mensagem: "Margens incorretas (devem começar com 3 espaços).", posicao: 0 });
