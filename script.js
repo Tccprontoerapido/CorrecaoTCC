@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             CKEDITOR.replace('editor', {
-                extraPlugins: 'divarea,pagebreak',
                 height: 500,
                 toolbar: [
                     { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
