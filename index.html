@@ -50,7 +50,7 @@
             display: block;
             margin: 10px 0 5px;
         }
-        input[type="text"], input[type="password"], input[type="file"], textarea {
+        input[type="text"], input[type="password"], input[type="file"], textarea, select {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -91,6 +91,13 @@
             <div id="login-error"></div>
         </section>
         <section id="area-trabalho" style="display:none;">
+            <h2>Selecione o Tipo de Trabalho</h2>
+            <select id="tipo-trabalho" onchange="selecionarTipoTrabalho()">
+                <option value="">Selecione...</option>
+                <option value="dissertacao">Dissertação de Mestrado</option>
+                <option value="tcc">Trabalho de Conclusão de Curso (TCC)</option>
+                <option value="monografia">Monografia</option>
+            </select>
             <h2>Insira seu Trabalho</h2>
             <textarea id="editor"></textarea>
             <button type="button" onclick="aplicarNormasTCC()">Aplicar Normas</button>
