@@ -21,6 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
             loginForm.style.display = 'none';
             areaTrabalho.style.display = 'block';
             resultadoCorrecao.style.display = 'block';
+
+            if (CKEDITOR.instances.editor) {
+                CKEDITOR.instances.editor.destroy(true);
+            }
+
             CKEDITOR.replace('editor', {
                 extraPlugins: 'divarea,pagebreak',
                 height: 500,
