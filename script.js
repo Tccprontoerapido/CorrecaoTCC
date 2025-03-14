@@ -72,33 +72,41 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
+        // Verificar margens
         if (!texto.startsWith("   ")) {
             erros.push({ mensagem: "Margens incorretas (devem começar com 3 espaços).", posicao: 0 });
         }
 
+        // Verificar fonte e tamanho
         if (!verificarFonte(texto, "Arial", "12pt")) {
             erros.push({ mensagem: "Fonte incorreta (deve ser Arial 12pt).", posicao: 0 });
         }
 
+        // Verificar espaçamento entre linhas
         if (!verificarEspacamento(texto, 1.5)) {
             erros.push({ mensagem: "Espaçamento entre linhas incorreto (deve ser 1.5).", posicao: 0 });
         }
 
+        // Verificar citações
         const errosCitacao = verificarCitacoes(texto);
         erros = erros.concat(errosCitacao);
 
+        // Verificar referências
         const errosReferencias = verificarReferencias(texto);
         erros = erros.concat(errosReferencias);
 
+        // Verificar títulos
         const errosTitulos = verificarTitulos(texto);
         erros = erros.concat(errosTitulos);
 
+        // Destacar erros no texto
         erros.forEach(erro => {
             textoFormatado = destacarErro(textoFormatado, erro.mensagem, erro.posicao);
         });
 
         CKEDITOR.instances.editor.setData(textoFormatado);
 
+        // Exibir sugestões de correção
         let sugestoes = erros.map(erro => {
             return `<div class="sugestao-correcao">
                 <strong>Erro:</strong> ${erro.mensagem}<br>
