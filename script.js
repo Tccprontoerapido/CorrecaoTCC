@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
                     '/',
                     { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
                     { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
                     { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
                     '/',
@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let erros = [];
         let textoFormatado = aplicarNormasABNT(texto);
 
-        // Verificar erros no texto formatado
         const errosCitacao = verificarCitacoes(textoFormatado);
         erros = erros.concat(errosCitacao);
 
@@ -83,14 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const errosTitulos = verificarTitulos(textoFormatado);
         erros = erros.concat(errosTitulos);
 
-        // Destacar erros no texto
         erros.forEach(erro => {
             textoFormatado = destacarErro(textoFormatado, erro.mensagem, erro.posicao);
         });
 
         CKEDITOR.instances.editor.setData(textoFormatado);
 
-        // Exibir sugestões de correção
         let sugestoes = erros.map(erro => {
             return `<div class="sugestao-correcao">
                 <strong>Erro:</strong> ${erro.mensagem}<br>
@@ -102,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     function aplicarNormasABNT(texto) {
-        // Aplicar formatação ABNT
         texto = aplicarMargens(texto);
         texto = aplicarFonte(texto);
         texto = aplicarEspacamento(texto);
@@ -116,49 +112,40 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function aplicarMargens(texto) {
-        // Adicionar margens no início e fim do texto
         return `\n\n${texto}\n\n`;
     }
 
     function aplicarFonte(texto) {
-        // Definir a fonte como Arial 12pt
         return `<span style="font-family: Arial; font-size: 12pt;">${texto}</span>`;
     }
 
     function aplicarEspacamento(texto) {
-        // Definir espaçamento entre linhas de 1.5
         return `<span style="line-height: 1.5;">${texto}</span>`;
     }
 
     function aplicarAlinhamento(texto) {
-        // Definir alinhamento justificado para o texto
         return `<div style="text-align: justify;">${texto}</div>`;
     }
 
     function aplicarRecuoParagrafos(texto) {
-        // Adicionar recuo de 1.25 cm na primeira linha de cada parágrafo
         return texto.replace(/<p>/g, `<p style="text-indent: 1.25cm;">`);
     }
 
     function aplicarFormatacaoCitacoes(texto) {
-        // Formatar citações curtas e longas
         texto = texto.replace(/“([^”]+)”/g, `"<span style="font-size: 12pt;">$1</span>"`);
         texto = texto.replace(/“([^”]{3,})”/g, `<blockquote style="font-size: 10pt; margin-left: 4cm;">$1</blockquote>`);
         return texto;
     }
 
     function aplicarNumeracaoPaginas(texto) {
-        // Adicionar numeração de páginas no canto superior direito
-        return texto; // Implementar conforme necessário
+        return texto; 
     }
 
     function aplicarFormatacaoTitulos(texto) {
-        // Formatar títulos com numeração progressiva
         return texto.replace(/<h([1-6])>([^<]+)<\/h\1>/g, `<h$1 style="text-align: left;">$2</h$1>`);
     }
 
     function aplicarFormatacaoReferencias(texto) {
-        // Formatar referências com espaçamento simples
         return texto.replace(/<li>([^<]+)<\/li>/g, `<li style="line-height: 1;">${texto}</li>`);
     }
 
@@ -248,5 +235,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.salvarPDF = function() {
         const texto = CKEDITOR.instances.editor.getData();
-        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, "")); // Remove all HTML tags and decode HTML entities
-       
+        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, "")); 
+
+        const
