@@ -46,3 +46,9 @@ button:hover {
     border: 1px solid red;
     padding: 2px;
 }
+
+.print-preview-content {
+    padding: 20px;
+    border: 1px solid #000;
+    margin-top: 20px;
+}
