@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
         texto = aplicarEspacamento(texto);
         texto = aplicarAlinhamento(texto);
         texto = aplicarRecuoParagrafos(texto);
-        texto = aplicarFormatacaoCitações(texto);
+        texto = aplicarFormatacaoCitacoes(texto);
         texto = aplicarNumeracaoPaginas(texto);
         texto = aplicarFormatacaoTitulos(texto);
         texto = aplicarFormatacaoReferencias(texto);
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return texto.replace(/<p>/g, `<p style="text-indent: 1.25cm;">`);
     }
 
-    function aplicarFormatacaoCitações(texto) {
+    function aplicarFormatacaoCitacoes(texto) {
         // Formatar citações curtas e longas
         texto = texto.replace(/“([^”]+)”/g, `"<span style="font-size: 12pt;">$1</span>"`);
         texto = texto.replace(/“([^”]{3,})”/g, `<blockquote style="font-size: 10pt; margin-left: 4cm;">$1</blockquote>`);
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.salvarPDF = function() {
         const texto = CKEDITOR.instances.editor.getData();
         const docDefinition = {
-            content: texto
+            content: texto.replace(/<span[^>]*>/g, "").replace(/<\/span>/g, "").replace(/<div[^>]*>/g, "").replace(/<\/div>/g, "").replace(/<blockquote[^>]*>/g, "").replace(/<\/blockquote>/g, "")
         };
         pdfMake.createPdf(docDefinition).download('trabalho.pdf');
     };
