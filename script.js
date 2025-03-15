@@ -246,8 +246,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.salvarPDF = function() {
         const texto = CKEDITOR.instances.editor.getData();
+        const plainText = texto.replace(/<\/?[^>]+(>|$)/g, ""); // Remove all HTML tags
         const docDefinition = {
-            content: texto.replace(/<span[^>]*>/g, "").replace(/<\/span>/g, "").replace(/<div[^>]*>/g, "").replace(/<\/div>/g, "").replace(/<blockquote[^>]*>/g, "").replace(/<\/blockquote>/g, "")
+            content: plainText
         };
         pdfMake.createPdf(docDefinition).download('trabalho.pdf');
     };
