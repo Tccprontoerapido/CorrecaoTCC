@@ -246,10 +246,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.salvarPDF = function() {
         const texto = CKEDITOR.instances.editor.getData();
-        const plainText = texto.replace(/<\/?[^>]+(>|$)/g, ""); // Remove all HTML tags
+        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, "")); // Remove all HTML tags and decode HTML entities
         const docDefinition = {
             content: plainText
         };
         pdfMake.createPdf(docDefinition).download('trabalho.pdf');
     };
+
+    function decodeEntities(encodedString) {
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
+    }
 });
