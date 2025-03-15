@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function aplicarFormatacaoReferencias(texto) {
         // Formatar referências com espaçamento simples
-        return texto.replace(/<li>([^<]+)<\/li>/g, `<li style="line-height: 1;">$1</li>`);
+        return texto.replace(/<li>([^<]+)<\/li>/g, `<li style="line-height: 1;">${texto}</li>`);
     }
 
     function verificarCitacoes(texto) {
