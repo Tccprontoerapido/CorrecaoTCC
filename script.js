@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.getElementById('login-form');
     const areaTrabalho = document.getElementById('area-trabalho');
     const resultadoCorrecao = document.getElementById('resultado-correcao');
+    const visualizacaoImpressao = document.getElementById('visualizacao-impressao');
+    const printPreviewContent = document.getElementById('print-preview-content');
     const loginError = document.getElementById('login-error');
     const editor = document.getElementById('editor');
     const logoutButton = document.getElementById("logoutButton");
@@ -247,15 +249,4 @@ document.addEventListener("DOMContentLoaded", function() {
     window.salvarPDF = function() {
         const texto = CKEDITOR.instances.editor.getData();
         const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, "")); // Remove all HTML tags and decode HTML entities
-        const docDefinition = {
-            content: plainText
-        };
-        pdfMake.createPdf(docDefinition).download('trabalho.pdf');
-    };
-
-    function decodeEntities(encodedString) {
-        const textArea = document.createElement('textarea');
-        textArea.innerHTML = encodedString;
-        return textArea.value;
-    }
-});
+       
