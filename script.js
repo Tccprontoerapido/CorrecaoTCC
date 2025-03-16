@@ -361,4 +361,18 @@ const normas = [
     { "titulo": "NBR 6023", "descricao": "Informação e documentação - Referências - Elaboração", "detalhes": "Esta Norma especifica os elementos a serem incluídos em referências." },
     { "titulo": "NBR 10520", "descricao": "Informação e documentação - Citações em documentos - Apresentação", "detalhes": "Esta Norma especifica as características exigíveis para apresentação de citações em documentos." },
     { "titulo": "NBR 14724", "descricao": "Informação e documentação - Trabalhos acadêmicos - Apresentação", "detalhes": "Esta Norma especifica os princípios gerais para a elaboração de trabalhos acadêmicos." },
-    { "titulo": "NBR 15287", "descricao":
+    { "titulo": "NBR 15287", "descricao": "Projeto de pesquisa - Apresentação", "detalhes": "Esta Norma especifica os princípios gerais para a elaboração de projetos de pesquisa." },
+    { "titulo": "NBR 12225", "descricao": "Informação e documentação - Coletâneas - Apresentação", "detalhes": "Esta Norma especifica as condições exigíveis para a apresentação de coletâneas." },
+    { "titulo": "NBR 6024", "descricao": "Informação e documentação - Numeração progressiva das seções de um documento escrito - Apresentação", "detalhes": "Esta Norma especifica as condições exigíveis para a numeração progressiva das seções de um documento escrito." },
+    { "titulo": "NBR 6028", "descricao": "Informação e documentação - Resumos - Apresentação", "detalhes": "Esta Norma especifica as condições exigíveis para a apresentação de resumos." },
+    { "titulo": "NBR 15437", "descricao": "Informação e documentação - Pôsteres técnicos - Apresentação", "detalhes": "Esta Norma especifica as condições exigíveis para a apresentação de pôsteres técnicos." }
+];
+
+window.buscarNorma = function() {
+    const busca = document.getElementById('busca-norma').value.toLowerCase();
+    const listaNormas = normas.filter(norma => norma.titulo.toLowerCase().includes(busca) || norma.descricao.toLowerCase().includes(busca) || norma.detalhes.toLowerCase().includes(busca));
+    document.getElementById('lista-normas').innerHTML = listaNormas.map(norma => `<li><strong>${norma.titulo}</strong>: ${norma.descricao}<br>${norma.detalhes}</li>`).join('');
+};
+
+document.getElementById('busca-norma').addEventListener('input', buscarNorma);
+window.buscarNorma(); // Inicializa a lista de normas completa
