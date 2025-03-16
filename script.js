@@ -300,6 +300,9 @@ document.addEventListener("DOMContentLoaded", function() {
             body {
                 margin: 1cm;
             }
+            header, footer, .page-number {
+                display: none;
+            }
         `;
         document.head.appendChild(style);
         window.print();
