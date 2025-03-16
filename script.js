@@ -120,6 +120,29 @@ document.addEventListener("DOMContentLoaded", function() {
         }).join('');
 
         document.getElementById('resultado-verificacao').innerHTML = sugestoes;
+
+        // Exibir normas aplicadas e não aplicadas
+        const normasAplicadas = [
+            "NBR 6023 - Referências",
+            "NBR 10520 - Citações",
+            "NBR 14724 - Trabalhos acadêmicos"
+        ];
+        const normasNaoAplicadas = [
+            "NBR 12225 - Coletâneas",
+            "NBR 6024 - Numeração progressiva",
+            "NBR 6028 - Resumos",
+            "NBR 15437 - Pôsteres técnicos"
+        ];
+
+        document.getElementById('normas-aplicadas').innerHTML = `
+            <h3>Normas Aplicadas</h3>
+            <ul>${normasAplicadas.map(norma => `<li>${norma}</li>`).join('')}</ul>
+        `;
+
+        document.getElementById('normas-nao-aplicadas').innerHTML = `
+            <h3>Normas Não Aplicadas</h3>
+            <ul>${normasNaoAplicadas.map(norma => `<li>${norma}</li>`).join('')}</ul>
+        `;
     };
 
     function aplicarNormasABNT(texto) {
@@ -162,7 +185,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function aplicarNumeracaoPaginas(texto) {
-        return texto; 
+        const introducaoIndex = texto.indexOf("INTRODUÇÃO");
+        let paginatedText = texto.slice(0, introducaoIndex);
+
+        const remainingText = texto.slice(introducaoIndex).split('\n').map((line, index) => {
+            if (index % 30 === 0 && index !== 0) {
+                return `<div class="page-break"></div><div class="page-number">${Math.floor(index / 30) + 1}</div>${line}`;
+            }
+            return line;
+        }).join('\n');
+
+        return paginatedText + remainingText;
     }
 
     function aplicarFormatacaoTitulos(texto) {
@@ -249,9 +282,18 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     window.visualizarImpressao = function() {
-        const texto = CKEDITOR.instances.editor.getData();
+        const texto = aplicarNumeracaoPaginas(CKEDITOR.instances.editor.getData());
         printPreviewContent.innerHTML = texto;
         visualizacaoImpressao.style.display = 'block';
+    };
+
+    window.imprimir = function() {
+        const printContents = document.getElementById('print-preview-content').innerHTML;
+        const originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        window.location.reload();
     };
 
     window.fecharVisualizacaoImpressao = function() {
