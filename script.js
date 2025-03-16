@@ -220,3 +220,94 @@ document.addEventListener("DOMContentLoaded", function() {
         const erro = fim.substring(0, fim.indexOf(mensagem) + mensagem.length);
         return inicio + `<span class="erro-destacado">${erro}</span>` + fim.substring(erro.length);
     }
+
+    window.importarPDF = async function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                const loadingTask = pdfjsLib.getDocument({ data: typedarray });
+                const pdf = await loadingTask.promise;
+                let combinedText = '';
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    combinedText += pageText + '\n\n';
+                }
+                CKEDITOR.instances.editor.setData(combinedText);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    };
+
+    window.salvarPDF = function() {
+        const texto = CKEDITOR.instances.editor.getData();
+        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, ""));
+
+        const pdfDocGenerator = pdfMake.createPdf({ content: plainText });
+        pdfDocGenerator.download('documento_ABNT.pdf');
+    };
+
+    window.visualizarImpressao = function() {
+        const texto = CKEDITOR.instances.editor.getData();
+        printPreviewContent.innerHTML = texto;
+        visualizacaoImpressao.style.display = 'block';
+    };
+
+    window.fecharVisualizacaoImpressao = function() {
+        visualizacaoImpressao.style.display = 'none';
+    };
+
+    function decodeEntities(encodedString) {
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
+    }
+
+    window.importarPDF = async function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                const loadingTask = pdfjsLib.getDocument({ data: typedarray });
+                const pdf = await loadingTask.promise;
+                let combinedText = '';
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    combinedText += pageText + '\n\n';
+                }
+                CKEDITOR.instances.editor.setData(combinedText);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    };
+
+    window.salvarPDF = function() {
+        const texto = CKEDITOR.instances.editor.getData();
+        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, ""));
+
+        const pdfDocGenerator = pdfMake.createPdf({ content: plainText });
+        pdfDocGenerator.download('documento_ABNT.pdf');
+    };
+
+    window.visualizarImpressao = function() {
+        const texto = CKEDITOR.instances.editor.getData();
+        printPreviewContent.innerHTML = texto;
+        visualizacaoImpressao.style.display = 'block';
+    };
+
+    window.fecharVisualizacaoImpressao = function() {
+        visualizacaoImpressao.style.display = 'none';
+    };
+
+    function decodeEntities(encodedString) {
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
+    }
+});
