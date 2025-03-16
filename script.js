@@ -285,13 +285,35 @@ document.addEventListener("DOMContentLoaded", function() {
         const texto = aplicarNumeracaoPaginas(CKEDITOR.instances.editor.getData());
         printPreviewContent.innerHTML = texto;
         visualizacaoImpressao.style.display = 'block';
+        if (CKEDITOR.instances.printPreviewEditor) {
+            CKEDITOR.instances.printPreviewEditor.destroy(true);
+        }
+        CKEDITOR.replace('print-preview-content', {
+            height: 500,
+            toolbar: [
+                { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
+                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+                { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+                '/',
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                '/',
+                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                { name: 'about', items: ['About'] }
+            ]
+        });
     };
 
     window.imprimir = function() {
-        const printContents = document.getElementById('print-preview-content').innerHTML;
+        const printContents = CKEDITOR.instances.printPreviewEditor.getData();
         const originalContents = document.body.innerHTML;
 
-        document.body.innerHTML = printContents;
+        document.body.innerHTML = `<div>${printContents}</div>`;
         const style = document.createElement('style');
         style.innerHTML = `
             @page {
@@ -311,11 +333,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Restaurar o conteúdo original e o estado do CKEditor
         visualizacaoImpressao.style.display = 'none';
-        CKEDITOR.instances.editor.setData(printContents);
+        CKEDITOR.instances.editor.setData(printContents); // Atualiza o editor original com o conteúdo da visualização
+        CKEDITOR.instances.printPreviewEditor.setData(printContents); // Atualiza a visualização de impressão com o conteúdo atualizado
     };
 
     window.fecharVisualizacaoImpressao = function() {
+        const printContents = CKEDITOR.instances.printPreviewEditor.getData();
         visualizacaoImpressao.style.display = 'none';
+        CKEDITOR.instances.editor.setData(printContents); // Atualiza o editor original com o conteúdo da visualização
     };
 
     function decodeEntities(encodedString) {
