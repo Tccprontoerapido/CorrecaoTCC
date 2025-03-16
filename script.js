@@ -16,41 +16,39 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    window.onload = function() {
-        if (!localStorage.getItem("userToken")) {
-            loginForm.style.display = 'block';
-            areaTrabalho.style.display = 'none';
-            resultadoCorrecao.style.display = 'none';
-        } else {
-            loginForm.style.display = 'none';
-            areaTrabalho.style.display = 'block';
-            resultadoCorrecao.style.display = 'block';
+    if (!localStorage.getItem("userToken")) {
+        loginForm.style.display = 'block';
+        areaTrabalho.style.display = 'none';
+        resultadoCorrecao.style.display = 'none';
+    } else {
+        loginForm.style.display = 'none';
+        areaTrabalho.style.display = 'block';
+        resultadoCorrecao.style.display = 'block';
 
-            if (CKEDITOR.instances.editor) {
-                CKEDITOR.instances.editor.destroy(true);
-            }
-
-            CKEDITOR.replace('editor', {
-                height: 500,
-                toolbar: [
-                    { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
-                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
-                    { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
-                    { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
-                    '/',
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                    { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-                    { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
-                    '/',
-                    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] },
-                    { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-                    { name: 'about', items: ['About'] }
-                ]
-            });
+        if (CKEDITOR.instances.editor) {
+            CKEDITOR.instances.editor.destroy(true);
         }
-    };
+
+        CKEDITOR.replace('editor', {
+            height: 500,
+            toolbar: [
+                { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
+                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+                { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+                '/',
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                '/',
+                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                { name: 'about', items: ['About'] }
+            ]
+        });
+    }
 
     window.login = function() {
         const loginInput = document.getElementById('login').value;
@@ -219,51 +217,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const fim = texto.substring(posicao);
         const erro = fim.substring(0, fim.indexOf(mensagem) + mensagem.length);
         return inicio + `<span class="erro-destacado">${erro}</span>` + fim.substring(erro.length);
-    }
-
-    window.importarPDF = async function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async function() {
-                const typedarray = new Uint8Array(this.result);
-                const loadingTask = pdfjsLib.getDocument({ data: typedarray });
-                const pdf = await loadingTask.promise;
-                let combinedText = '';
-                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                    const page = await pdf.getPage(pageNum);
-                    const textContent = await page.getTextContent();
-                    const pageText = textContent.items.map(item => item.str).join(' ');
-                    combinedText += pageText + '\n\n';
-                }
-                CKEDITOR.instances.editor.setData(combinedText);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-    };
-
-    window.salvarPDF = function() {
-        const texto = CKEDITOR.instances.editor.getData();
-        const plainText = decodeEntities(texto.replace(/<\/?[^>]+(>|$)/g, ""));
-
-        const pdfDocGenerator = pdfMake.createPdf({ content: plainText });
-        pdfDocGenerator.download('documento_ABNT.pdf');
-    };
-
-    window.visualizarImpressao = function() {
-        const texto = CKEDITOR.instances.editor.getData();
-        printPreviewContent.innerHTML = texto;
-        visualizacaoImpressao.style.display = 'block';
-    };
-
-    window.fecharVisualizacaoImpressao = function() {
-        visualizacaoImpressao.style.display = 'none';
-    };
-
-    function decodeEntities(encodedString) {
-        const textArea = document.createElement('textarea');
-        textArea.innerHTML = encodedString;
-        return textArea.value;
     }
 
     window.importarPDF = async function(event) {
