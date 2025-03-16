@@ -292,7 +292,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @page {
+                margin: 0;
+            }
+            body {
+                margin: 1cm;
+            }
+        `;
+        document.head.appendChild(style);
         window.print();
+        document.head.removeChild(style);
         document.body.innerHTML = originalContents;
 
         // Restaurar o conteúdo original e o estado do CKEditor
