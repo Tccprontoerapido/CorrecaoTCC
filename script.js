@@ -290,10 +290,14 @@ document.addEventListener("DOMContentLoaded", function() {
     window.imprimir = function() {
         const printContents = document.getElementById('print-preview-content').innerHTML;
         const originalContents = document.body.innerHTML;
+
         document.body.innerHTML = printContents;
         window.print();
         document.body.innerHTML = originalContents;
-        window.location.reload();
+
+        // Restaurar o conteúdo original e o estado do CKEditor
+        visualizacaoImpressao.style.display = 'none';
+        CKEDITOR.instances.editor.setData(printContents);
     };
 
     window.fecharVisualizacaoImpressao = function() {
