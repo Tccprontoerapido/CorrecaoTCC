@@ -349,3 +349,16 @@ document.addEventListener("DOMContentLoaded", function() {
         return textArea.value;
     }
 });
+
+// Buscador de Normas
+document.getElementById('normas').innerHTML = `
+    <h2>Normas</h2>
+    <input type="text" id="busca-norma" oninput="buscarNorma()" placeholder="Buscar norma...">
+    <ul id="lista-normas"></ul>
+`;
+
+const normas = [
+    { "titulo": "NBR 6023", "descricao": "Informação e documentação - Referências - Elaboração", "detalhes": "Esta Norma especifica os elementos a serem incluídos em referências." },
+    { "titulo": "NBR 10520", "descricao": "Informação e documentação - Citações em documentos - Apresentação", "detalhes": "Esta Norma especifica as características exigíveis para apresentação de citações em documentos." },
+    { "titulo": "NBR 14724", "descricao": "Informação e documentação - Trabalhos acadêmicos - Apresentação", "detalhes": "Esta Norma especifica os princípios gerais para a elaboração de trabalhos acadêmicos." },
+    { "titulo": "NBR 15287", "descricao":
