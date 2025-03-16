@@ -52,3 +52,15 @@ button:hover {
     border: 1px solid #000;
     margin-top: 20px;
 }
+
+.page-break {
+    page-break-before: always;
+}
+
+.page-number {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+    font-size: 12px;
+}
